@@ -1,9 +1,9 @@
-export const Colors = {
+const Colors = {
     producto: "Colors",
     price: 20,
     quantity: 3,
 };
-export const invoices = [
+const invoices = [
     {
       id: 1,
       name: "Compras de oficina",
@@ -82,6 +82,12 @@ export const invoices = [
     },
   ];
 
-  export default (clientName) => {
+  const invoiceByClientName =(clientName) => {
     return invoices.find(i => i.client.name === clientName);
+  }
+
+  export{
+    Colors,
+    invoices as default,
+    invoiceByClientName,
   }
