@@ -86,8 +86,33 @@ const invoices = [
     return invoices.find(i => i.client.name === clientName);
   }
 
+  const invoiceById = (id) =>{
+    return invoices.find(i => i.id === id);
+  }
+
+  //Promesas 
+  const findInvoiceById = (id) =>{
+    const promise = new Promise((resolve, reject) =>{
+      setTimeout(() =>{
+        const result = invoiceById(id);
+        if (result){
+          resolve(result);
+        } else{
+          reject('Error: Al chile no pa no existe')
+        }
+        
+        //console.log("Realizando prueba con periodo de tiempo")
+      },2500);
+  
+    });
+  
+    return promise;
+  };
+
   export{
     Colors,
     invoices as default,
     invoiceByClientName,
+    invoiceById,
+    findInvoiceById
   }
