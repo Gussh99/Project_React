@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import { HelloWorldApp } from './HelloWordApp'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <HelloWorldApp 
+      user={ {name:'Gustavo',lastname:'Vela'}} 
+      id={ 3 }
+      title = 'Hola Mundo'
+    />
   </React.StrictMode>,
-  
 )
