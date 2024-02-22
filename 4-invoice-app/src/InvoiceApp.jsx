@@ -10,54 +10,72 @@ import { TotalView } from "./components/TotalView";
 export const InvoiceApp = () => {
 
     const {total,id,name, client, company, items:itemsInitial} = getInvoice();
-    //se crea para registrar nuevos item
+
+    const [formItemsState,setFormItemsState] = useState({
+        product: '',
+        price:'',
+        quantity:'',
+    });
+    const {product, price, quantity} = formItemsState;
+    /*se crea para registrar nuevos item
     const [productValue, setProductValue] = useState('');
     const [priceValue, setPriceValue] = useState('');
-    const [quantityValue, setQuantityValue] = useState('');
+    const [quantityValue, setQuantityValue] = useState('');*/
     //para guardar los items
     const [items, setItems] = useState(itemsInitial);
     //usa para el contador del id iniciando en 4 porque ya se tiene 3 registros
     const [counter, setCounter] = useState(4);
-
-    const onProductChange = ({target}) => {
+    //se mejora para tomar los campos en una sola funcion en un solo estado
+    const onInvoiceChange = ({target: {name, value}}) => {
+        console.log(name);
+        console.log(value);
+        setFormItemsState({
+            ...formItemsState,
+            [name]:value
+        })
+    };
+    /*const onProductChange = ({target}) => {
         console.log(target.value);
         setProductValue(target.value);
     };
 
-    
     const onPriceChange = ({target}) => {
         console.log(target.value);
         setPriceValue(target.value);
     };
-
     const onQuantityChange = (event) => {
         console.log(event.target.value);
         setQuantityValue(event.target.value);
-    };
+    };*/
     
     const onInvoiceItemSubmit = (event) => {
         event.preventDefault();
         //se realizan las validaciones del formulario
-        if(productValue.trim().length <= 1) return;
-        if(priceValue.trim().length <= 1) return;
-        if(isNaN(priceValue.trim())) {
-            alert('No es un numero '+priceValue)
+        if(product.trim().length <= 1) return;
+        if(price.trim().length <= 1) {
+            alert('El campo de ser de 2 digito')
+            return
+        };
+        if(isNaN(price.trim())) {
+            alert('No es un numero '+price)
             return;
         }
-        if(quantityValue.trim().length < 1) return;
-        if(isNaN(quantityValue.trim())) return;
+        if(quantity.trim().length < 1) return;
+        if(isNaN(quantity.trim())) return;
         
         setItems([...items, {
             id:counter,
-            product:productValue.trim(),//el trim() funciona para quitar los espacios
+            product:product.trim(),//el trim() funciona para quitar los espacios
             //covertir enetero con el signo +
-            price:+priceValue.trim(),
+            price:+price.trim(),
             //convertir entero con parseInt
-            quantity:parseInt(quantityValue.trim(), 10)
+            quantity:parseInt(quantity.trim(), 10)
         }]);
-        setProductValue('');
-        setPriceValue('');
-        setQuantityValue('');
+        setFormItemsState({
+            product: '',
+            price: '',
+            quantity:'',
+        });
         setCounter(counter+1);
 
     };
@@ -93,26 +111,26 @@ export const InvoiceApp = () => {
                             className="form-control" 
                             type="text" 
                             name="product" 
-                            value={productValue}
+                            value={product}
                             placeholder="Producto" 
-                            onChange={ onProductChange } />
+                            onChange={ onInvoiceChange } />
                         </div>
                         <div className="col-3">
                             <input 
                             className="form-control" 
                             type="text" 
                             name="price" 
-                            value={priceValue}
+                            value={price}
                             placeholder="$Preio" 
-                            onChange={onPriceChange} />
+                            onChange={onInvoiceChange} />
                         </div>
                         <div className="col-3">
                             <input className="form-control"
                             type="number" 
                             name="quantity" 
-                            value={quantityValue}
+                            value={quantity}
                             placeholder="Cantidad" 
-                            onChange={event => onQuantityChange(event)} /> 
+                            onChange={ event => onInvoiceChange(event)} /> 
                         </div>
                     </div>
                     <div className="my-3">
