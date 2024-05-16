@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { getInvoice } from "./services/getinvoice"
+import { useEffect, useState } from "react";
+import { getInvoice, calculateTotal } from "./services/getinvoice"
 import { ClientView } from "./components/ClientView";
 import { EmpresaView } from "./components/EmpresaView";
 import { DetailView } from "./components/InvoiceDetailView";
@@ -7,28 +7,80 @@ import { ItemView } from "./components/ItemView";
 import { TotalView } from "./components/TotalView";
 
 
+const invoiceInitial = {
+    id:0,
+    name:'',
+    client:{
+        name:'',
+        lastname:'',
+        address:{
+            country:'',
+            city:'',
+            stree:'',
+            number:0
+        },
+    },
+    company:{
+        name:'',
+        fisicaNumber:0,
+    },
+    items:[]
+    
+}
+
 export const InvoiceApp = () => {
 
-    const {total,id,name, client, company, items:itemsInitial} = getInvoice();
+    const [total, setTotal] = useState(0);
+    //usa para el contador del id iniciando en 4 porque ya se tiene 3 registros
+    const [counter, setCounter] = useState(4);
+
+    const [invoice, setInvoice] =  useState(invoiceInitial);
+    //para guardar los items
+    const [items, setItems] = useState([]);
 
     const [formItemsState,setFormItemsState] = useState({
         product: '',
         price:'',
         quantity:'',
     });
+    //factura desestructuracion
+    const {id,name, client, company} = invoice;
+
     const {product, price, quantity} = formItemsState;
+
+    useEffect(() =>{
+        const data = getInvoice();
+        console.log(data);
+        setInvoice(data);
+        setItems(data.items)
+    }, []);
+
+    useEffect(() =>{
+       //console.log('Cambio de precio')
+    } ,[price]);
+
+    useEffect(() =>{
+        //console.log('Cambio de formItemsState')
+    } ,[formItemsState]);
+
+    useEffect(() =>{
+        //console.log('El counter cambio')
+    } ,[counter]);
+
+    //calcula el total de los productos una vez que se van agregando
+    useEffect(() =>{
+        setTotal(calculateTotal(items))
+    } ,[items]);
+    /*se crea para registra
     /*se crea para registrar nuevos item
     const [productValue, setProductValue] = useState('');
     const [priceValue, setPriceValue] = useState('');
     const [quantityValue, setQuantityValue] = useState('');*/
-    //para guardar los items
-    const [items, setItems] = useState(itemsInitial);
-    //usa para el contador del id iniciando en 4 porque ya se tiene 3 registros
-    const [counter, setCounter] = useState(4);
+
     //se mejora para tomar los campos en una sola funcion en un solo estado
     const onInvoiceChange = ({target: {name, value}}) => {
-        console.log(name);
-        console.log(value);
+        //console.log(name);
+        //console.log(value);
         setFormItemsState({
             ...formItemsState,
             [name]:value
