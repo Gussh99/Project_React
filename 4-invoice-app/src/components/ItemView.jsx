@@ -1,6 +1,6 @@
 import { RowItem } from "./RowItem"
 import PropTypes from 'prop-types'
-export const ItemView = ({title, items}) =>{
+export const ItemView = ({title, items, handlerDeleteItem}) =>{
     return(
         <>
             <h4 className="title">{title}</h4>
@@ -10,6 +10,7 @@ export const ItemView = ({title, items}) =>{
                         <th>Producto</th>
                         <th>Precio</th>
                         <th className='text-center'>Cantidad</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody className="table-group-divider">
@@ -17,9 +18,16 @@ export const ItemView = ({title, items}) =>{
                      * iteracion de los item
                      * de uno en uno
                     */}
-                    { items.map(item => {
+                    { items.map(({id, product, price, quantity}) => {
                         return (
-                            <RowItem key={item.id} product={item.product} price={item.price} quantity={item.quantity}/>
+                            <RowItem 
+                                key={id} 
+                                id={id}
+                                product={product} 
+                                price={price} 
+                                quantity={quantity}
+                                handlerDeleteItem={ id => handlerDeleteItem(id) }
+                            />
                         )
                     })}
                 </tbody>
