@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { CartView } from "./components/CartView"
 import { CatalogView } from "./components/CatalogView"
-import { products } from "./data/productos"
+import { itemsReducer } from "./reducer/itemsReducer"
+import { useReducer } from "react"
+import { AddProductCart, DeleteProductCart, UpdateQuantityProductCart } from "./reducer/itemsActions"
 
 //Objecto de los elemento del carrito
 const inititalCartItem = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -9,44 +11,45 @@ const inititalCartItem = JSON.parse(sessionStorage.getItem('cart')) || [];
 export const  CartApp = () => {
 
 
-    const [cartItems, setCartItems] = useState(inititalCartItem);
+    //const [cartItems, setCartItems] = useState(inititalCartItem);
+    //Usando el reducer para las acciones de los elementos del carrito
+    const [cartItems, dispatch] = useReducer(itemsReducer, inititalCartItem);
 
+    useEffect(() =>{
+        //Matiene la sesion con los elemntos selecionas en el carrito
+        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+        //Mantine los elementos aun cerrando la sesion en el carrito
+        //localStorage.setItem('cart', JSON.stringify(items));
+    } ,[cartItems]);
     
 
     const handlerAddProductCart = (product) =>{
         //Para buscar si ya existe un registro con el id solo incrementa el numero de elementos
         const hasItem = cartItems.find((i) => i.product.id === product.id);
         if(hasItem){
-            /*setCartItems([
-                ...cartItems.filter( (i) => i.product.id !== product.id),
+            dispatch(
                 {
-                    product,
-                    quantity:hasItem.quantity + 1,
+                    type: UpdateQuantityProductCart,
+                    payload: product,
                 }
-            ])*/
-            setCartItems([
-                ...cartItems.map( (i) => {
-                    if(i.product.id === product.id){
-                        i.quantity = i.quantity + 1;
-                    }
-                    return i;
-                }),
-            ])
+            );
         }else{
-            setCartItems([
-                ...cartItems,
+            dispatch(
                 {
-                    product,
-                    quantity:1,
+                    type: AddProductCart,
+                    payload: product,
                 }
-            ]);
+            );
         }
     }
 
     const handlerDeleteProduct = (id) => {
-        setCartItems([
-            ...cartItems.filter( (i) => i.product.id !== id)
-        ])
+        dispatch(
+            {
+                type: DeleteProductCart,
+                payload: id,
+            }
+        );
     }
     return (
         <>
