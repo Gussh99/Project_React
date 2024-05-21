@@ -11,10 +11,6 @@ export const CartView = ({ handlerDelete,items}) =>{
         setTotal(
             calculateTotal(items)
         );
-        //Matiene la sesion con los elemntos selecionas en el carrito
-        sessionStorage.setItem('cart', JSON.stringify(items));
-        //Mantine los elementos aun cerrando la sesion en el carrito
-        //localStorage.setItem('cart', JSON.stringify(items));
     } ,[items]);
 
     const onDeleteProduct = (id) => {
