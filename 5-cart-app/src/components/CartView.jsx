@@ -1,4 +1,21 @@
+import { useEffect, useState } from "react"
+import { calculateTotal } from "../services/productService";
+
 export const CartView = ({ handlerDelete,items}) =>{
+
+    const [total, setTotal] = useState(0);
+
+    
+    useEffect(() =>{
+        //Para calcular el total de los productos del carrito de compras
+        setTotal(
+            calculateTotal(items)
+        );
+        //Matiene la sesion con los elemntos selecionas en el carrito
+        sessionStorage.setItem('cart', JSON.stringify(items));
+        //Mantine los elementos aun cerrando la sesion en el carrito
+        //localStorage.setItem('cart', JSON.stringify(items));
+    } ,[items]);
 
     const onDeleteProduct = (id) => {
         //console.log('Eliminando producto')
@@ -32,7 +49,7 @@ export const CartView = ({ handlerDelete,items}) =>{
                 <tfoot>
                     <tr>
                         <td colSpan="3" className="text-end fw-bold">Total</td>
-                        <td colSpan="2" className="text-start fw-bold">3456</td>
+                        <td colSpan="2" className="text-start fw-bold">{ total }</td>
                     </tr>
                 </tfoot>
             </table>

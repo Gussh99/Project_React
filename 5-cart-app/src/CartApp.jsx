@@ -1,25 +1,17 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CartView } from "./components/CartView"
 import { CatalogView } from "./components/CatalogView"
 import { products } from "./data/productos"
 
-const inititalCartItem = [
-    /*{
-        product:{
-            id:1,
-            name:'Teclado Mecanico RGB',
-            description:'Teclado Mecanico con luces chidas',
-            price: 1000
-        },
-        quantity:0,
-        total:0
-    }*/
-]
+//Objecto de los elemento del carrito
+const inititalCartItem = JSON.parse(sessionStorage.getItem('cart')) || [];
 
 export const  CartApp = () => {
 
 
     const [cartItems, setCartItems] = useState(inititalCartItem);
+
+    
 
     const handlerAddProductCart = (product) =>{
         //Para buscar si ya existe un registro con el id solo incrementa el numero de elementos
@@ -58,7 +50,7 @@ export const  CartApp = () => {
     }
     return (
         <>
-        <div className="container">
+        <div className="container my-4">
 
             <h3>Carrito de compras</h3>
             <CatalogView handler={handlerAddProductCart}/>
