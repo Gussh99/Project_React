@@ -1,0 +1,10 @@
+.card-size{
+    position: relative;
+    overflow: hidden;
+    padding-top: 1%;
+}
+
+video {
+    width: 400px;
+    height: 300px;
+};
