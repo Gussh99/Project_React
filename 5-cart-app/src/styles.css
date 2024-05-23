@@ -1,0 +1,44 @@
+.card-size{
+    position: relative;
+    overflow: hidden;
+    padding-top: 1%;
+}
+
+.video-size {
+    width: 600px;
+    height: 500px;
+};
+
+.linkcolor{
+    color: black;
+    text-decoration: none;
+}
+.linkcolor:hover{
+    color: rgb(34, 34, 34);
+    background-color: rgb(248, 243, 243);
+    border-radius: 5px;
+}
+
+.car-video{
+    width: 2rem;
+    height: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-color{
+    background-color: #ffffff;
+}
+
+.color-nav-title{
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.color-nav-title:hover{
+    color: #3f5fec;
+    font-size: 1.6rem;
+    transition: 0.5ms;
+}

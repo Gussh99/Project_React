@@ -2,13 +2,15 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { CartView } from "./components/CartView"
 import { CatalogView } from "./components/CatalogView"
 import { useItemsCar } from "./hooks/useItemsCart"
-import "./style.css"
+import { Navbar } from "./components/Navbar";
+
 
 export const  CartApp = () => {
 
     const {cartItems,handlerAddProductCart,handlerDeleteProduct} = useItemsCar();
     return (
         <>
+        <Navbar />
         <div className="container my-4">
         <h3>Carrito de compras</h3>
             <Routes>
@@ -24,7 +26,7 @@ export const  CartApp = () => {
                             <div className="container text-center card-size">
                                 <div className="alert alert-light">
                                     <h3>Upps</h3>
-                                    <video autoPlay loop muted className="video-gif">
+                                    <video autoPlay loop muted className="video-size">
                                         <source src="https://cdn-icons-mp4.flaticon.com/512/9197/9197782.mp4"/>
                                     </video>
                                     <div className="d-grid gap-2 col-2 mx-auto">
